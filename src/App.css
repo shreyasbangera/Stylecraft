@@ -33,7 +33,8 @@ height: 100vh;
 
 .homeimg{
     object-fit: cover;
-    overflow: hidden;          
+    overflow: hidden;  
+    height: 100%;        
 }
 
 
@@ -129,7 +130,7 @@ height: 100vh;
 @media screen and (max-width: 900px){
     .homeimg{
         width:100%;
-        object-fit: contain;
+        object-position: 100% 0;
         height: 100%;
      }
 
@@ -139,14 +140,38 @@ height: 100vh;
    .btnshop{
     padding: 10px;
     font-size: 15px;
+    color: white;
+    background-color: #000;
    }
+   .banner-content{
+    left: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10%;
+    width: 90%;
+    color: white;
+} 
 }
 
-@media screen and (max-width: 375px){
+@media screen and (max-width: 600px){
+    .homeimg{
+        width: 100%;
+        object-position: 90% 0;
+    }
+
+}
+
+@media screen and (max-width: 425px){
+    .homeimg{
+        width: 100%;
+        object-position: 80% 0;
+    }
+    
     .btnshop{
         padding: 10px;
         font-size: 10px;
-       }  
+       
+       } 
+    
 }
 
     

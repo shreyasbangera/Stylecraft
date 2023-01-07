@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <Box>
     <Stack className='banner-content' >
-    <Typography sx={{ mb:"10px", fontSize:{md:"50px", xs:"15px", sm:"30px"}, fontWeight:"bold" }}>WE SELL LIFESTYLE</Typography>
+    <Typography sx={{ mb:"10px", fontSize:{md:"50px", xs:"20px", sm:"30px"}, fontWeight:"bold" }}>WE SELL LIFESTYLE</Typography>
     <Typography sx={{ mb:"20px", fontSize:{md:"20px", xs:"12px", sm:"15px"}}}>Flat 40% OFF</Typography>
 
     <Link to="/products">
