@@ -5,7 +5,7 @@ import {
   Card,
   CardActions,
   CardMedia,
-  CardContent
+  CardContent,
 } from "@mui/material";
 import { products } from "../data";
 import { useDispatch } from "react-redux";
@@ -35,13 +35,15 @@ const Products = () => {
     }
   }, [sort]);
 
- const handleSubmit = (e) =>{
- e.preventDefault()
-    if(search){
-    const result = products.filter(product=>product.title.toLowerCase().includes(search))
-    setFilteredProducts(result)
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search) {
+      const result = products.filter((product) =>
+        product.title.toLowerCase().includes(search)
+      );
+      setFilteredProducts(result);
     }
-  }
+  };
 
   return (
     <Box>
@@ -57,73 +59,83 @@ const Products = () => {
           justifyContent: "space-between",
         }}
       >
-      <SearchProducts setSearch={setSearch} handleSubmit={handleSubmit} />
-      <Sort setSort={setSort}/>
+        <SearchProducts setSearch={setSearch} handleSearch={handleSearch} />
+        <Sort setSort={setSort} />
       </Stack>
 
+      {/* Displaying the products */}
       <Stack
         direction="row"
         sx={{
           justifyContent: "space-around",
           flexWrap: "wrap",
           gap: { xs: "10px", lg: "30px", sm: "20px" },
-          marginBottom:"50px",
+          marginBottom: "50px",
+          minHeight: "50vh",
         }}
       >
-        {filteredProducts.map((product) => (
-          <Card 
-            sx={{
-              height: { lg: "400px", xs: "300px", md: "350px" },
-              width: { lg: "300px", xs: "150px", sm: "220px" },
-              "&:hover":{ boxShadow: 10}
-            }}
-            key={product.id}
+        {filteredProducts.length === 0 ? (
+          <Typography
+            sx={{ alignSelf: "center", fontSize: "30px", color: "gray" }}
           >
-            <CardMedia
-              component="img"
-              image={product.img}
+            No Results
+          </Typography>
+        ) : (
+          filteredProducts.map((product) => (
+            <Card
               sx={{
-                height: { lg: "200px", xs: "120px", md: "180px" },
-                objectFit: "contain",
+                height: { lg: "400px", xs: "300px", md: "350px" },
+                width: { lg: "300px", xs: "150px", sm: "220px" },
+                "&:hover": { boxShadow: 10 },
               }}
-            />
-
-            <CardContent>
-              <Typography
-                gutterBottom
-                textAlign="center"
+              key={product.id}
+            >
+              <CardMedia
+                component="img"
+                image={product.img}
                 sx={{
-                  fontSize: { lg: "1.25rem", sm: "1rem" },
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  display: "-webkit-box",
-                  "-webkit-line-clamp": "1",
-                  "-webkit-box-orient": "vertical",
+                  height: { lg: "200px", xs: "120px", md: "180px" },
+                  objectFit: "contain",
                 }}
-              >
-                {product.title}
-              </Typography>
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: { lg: "1.25rem", sm: "1rem" },
-                }}
-              >
-                Rs.{product.price}
-              </Typography>
-            </CardContent>
+              />
 
-            <CardActions sx={{ display: "flex", flexDirection: "column" }}>
-              <button
-                className="btncart"
-                onClick={() => dispatch(addtoCart(product))}
-              >
-                Add to Cart
-              </button>
-            </CardActions>
-          </Card>
-        ))}
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  textAlign="center"
+                  sx={{
+                    fontSize: { lg: "1.25rem", sm: "1rem" },
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    "-webkit-line-clamp": "1",
+                    "-webkit-box-orient": "vertical",
+                  }}
+                >
+                  {product.title}
+                </Typography>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: { lg: "1.25rem", sm: "1rem" },
+                  }}
+                >
+                  Rs.{product.price}
+                </Typography>
+              </CardContent>
+
+              <CardActions sx={{ display: "flex", flexDirection: "column" }}>
+                <button
+                  className="btncart"
+                  onClick={() => dispatch(addtoCart(product))}
+                >
+                  Add to Cart
+                </button>
+              </CardActions>
+            </Card>
+          ))
+        )}
       </Stack>
     </Box>
   );

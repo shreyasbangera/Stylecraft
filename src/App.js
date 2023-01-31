@@ -3,17 +3,16 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Navbar from './components/Navbar';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import Footer from './components/Footer';
 import { useRef } from 'react';
+import { theme } from './utils/theme';
 
 
 function App() {
+  
   const footerRef = useRef()
-  const theme = createTheme({
-    typography: {
-      fontFamily: ['Ubuntu', 'sans-serif'].join(',')
-    }})
+
   return (
     <ThemeProvider theme={theme}>
     <div className='body'>
