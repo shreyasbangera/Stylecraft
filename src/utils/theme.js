@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
   typography: {
-    fontFamily: ["Ubuntu", "sans-serif"].join(","),
+    fontFamily: ['Jost', 'sans-serif'].join(","),
   },
 });
 

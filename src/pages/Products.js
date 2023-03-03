@@ -42,102 +42,139 @@ const Products = () => {
         product.title.toLowerCase().includes(search)
       );
       setFilteredProducts(result);
-    } else{
-      setFilteredProducts(products)
+    } else {
+      setFilteredProducts(products);
     }
   };
 
   return (
     <Box>
-      <Stack className="producttitle">
-        <Typography sx={{ fontSize: "30px", fontWeight: "bold" }}>
-          Products
-        </Typography>
-      </Stack>
-      <Stack
-        direction="row"
-        sx={{
-          m: { md: "20px 30px 20px", xs: "20px 0px 20px" },
-          justifyContent: "space-between",
-        }}
-      >
-        <SearchProducts setSearch={setSearch} handleSearch={handleSearch} />
-        <Sort setSort={setSort} />
-      </Stack>
-
-      {/* Displaying the products */}
-      <Stack
-        direction="row"
-        sx={{
-          justifyContent: "space-around",
-          flexWrap: "wrap",
-          gap: { xs: "10px", lg: "30px", sm: "20px" },
-          marginBottom: "50px",
-          minHeight: "50vh",
-        }}
-      >
-        {filteredProducts.length === 0 ? (
+      <Stack className="producttitle" sx={{ mt: "50px" }}>
+        <img
+          src="https://drfurithemes.com/durotan/wp-content/themes/durotan-child/images/shop_collection_banner.jpg"
+          style={{ position: "relative", width: "100%", height: "auto" }}
+        />
+        <Stack
+          sx={{ position: "absolute", alignItems: "center", color: "white" }}
+        >
           <Typography
-            sx={{ alignSelf: "center", fontSize: "30px", color: "gray" }}
+            sx={{
+              fontSize: { lg: "60px", xs: "25px", sm: "40px" },
+              fontWeight: "bold",
+            }}
           >
-            No Results
+            Products
           </Typography>
-        ) : (
-          filteredProducts.map((product) => (
-            <Card
+          <Typography sx={{ fontSize: { lg: "20px", xs: "10px", sm: "15px" } }}>
+            This is where you can browse products in this store.
+          </Typography>
+        </Stack>
+      </Stack>
+      <Stack sx={{ p: { md: "40px", xs: "4px" } }}>
+        <Stack
+          direction="row"
+          sx={{
+            p: { md: "20px 1px", xs: "20px 0px 20px" },
+            justifyContent: "space-between",
+          }}
+        >
+          <SearchProducts setSearch={setSearch} handleSearch={handleSearch} />
+          <Sort setSort={setSort} />
+        </Stack>
+
+        {/* Displaying the products */}
+        <Stack
+          direction="row"
+          sx={{
+            justifyContent:
+              search.length !== 0
+                ? "flex-start"
+                : { sm: "space-between", xs: "space-evenly" },
+            flexWrap: "wrap",
+            gap: { xs: "10px", lg: "30px", sm: "20px" },
+            marginBottom: "50px",
+            minHeight: "50vh",
+            paddingX: "0",
+          }}
+        >
+          {filteredProducts.length === 0 ? (
+            <Typography
               sx={{
-                height: { lg: "400px", xs: "300px", md: "350px" },
-                width: { lg: "300px", xs: "150px", sm: "220px" },
-                "&:hover": { boxShadow: 10 },
+                fontSize: "30px",
+                color: "gray",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
               }}
-              key={product.id}
             >
-              <CardMedia
-                component="img"
-                image={product.img}
+              No Results
+            </Typography>
+          ) : (
+            filteredProducts.map((product) => (
+              <Card
                 sx={{
-                  height: { lg: "200px", xs: "120px", md: "180px" },
-                  objectFit: "contain",
+                  height: "auto",
+                  width: { lg: "250px", xs: "150px", sm: "200px" },
+                  "&:hover": { boxShadow: 10 },
+                  pb: "20px",
                 }}
-              />
-
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  textAlign="center"
+                key={product.id}
+              >
+                <CardMedia
+                  component="img"
+                  image={product.img}
                   sx={{
-                    fontSize: { lg: "1.25rem", sm: "1rem" },
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    "-webkit-line-clamp": "1",
-                    "-webkit-box-orient": "vertical",
+                    height: { xs: "200px", sm: "240px", lg: "260px" },
+                    objectFit: "cover",
+                  }}
+                />
+
+                <CardContent sx={{ paddingX: "5px" }}>
+                  <Typography
+                    gutterBottom
+                    sx={{
+                      fontSize: { lg: "1.25rem", sm: "1rem" },
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      "-webkit-line-clamp": "1",
+                      "-webkit-box-orient": "vertical",
+                    }}
+                  >
+                    {product.title}
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    sx={{ justifyContent: "space-between" }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: { lg: "1.25rem", sm: "1rem" },
+                      }}
+                    >
+                      Rs.{product.price}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    p: "0px 16px",
                   }}
                 >
-                  {product.title}
-                </Typography>
-                <Typography
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    fontSize: { lg: "1.25rem", sm: "1rem" },
-                  }}
-                >
-                  Rs.{product.price}
-                </Typography>
-              </CardContent>
-
-              <CardActions sx={{ display: "flex", flexDirection: "column" }}>
-                <button
-                  className="btncart"
-                  onClick={() => dispatch(addtoCart(product))}
-                >
-                  Add to Cart
-                </button>
-              </CardActions>
-            </Card>
-          ))
-        )}
+                  <button
+                    className="btncart"
+                    onClick={() => dispatch(addtoCart(product))}
+                  >
+                    Add to Cart
+                  </button>
+                </CardActions>
+              </Card>
+            ))
+          )}
+        </Stack>
       </Stack>
     </Box>
   );

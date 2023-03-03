@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import Cart from "./Cart";
 import { navbrand } from "../utils/theme";
+import { Link as ScrollLink } from "react-scroll";
 
-const Navbar = ({footerRef}) => {
+const Navbar = () => {
   return (
     <Box>
-      <AppBar sx={{ background: "black" }} position="fixed">
+      <AppBar sx={{ background: "#fff", color:"black" }} position="fixed">
         <Toolbar>
           <Stack direction="row" flex="1" gap="150px" ml="10px">
           <ThemeProvider theme={navbrand}>
@@ -36,9 +37,9 @@ const Navbar = ({footerRef}) => {
                 <Typography className="navtext">SHOP</Typography>
               </Link>
 
-              <Stack>
-                  <Typography className="navtext" onClick={()=>{footerRef.scrollIntoView({ behavior: 'smooth', block: 'center' })}}>CONTACT US</Typography>
-              </Stack>
+              <ScrollLink to="contact" spy={true} smooth={true}  duration={600}>
+                  <Typography className="navtext">CONTACT US</Typography>
+              </ScrollLink>
             </Stack>
           </Stack>
           <Cart />

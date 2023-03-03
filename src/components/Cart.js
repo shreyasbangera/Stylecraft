@@ -14,6 +14,7 @@ import {
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { useSelector, useDispatch } from "react-redux";
 import { checkout, removefromCart } from "../redux/actions/cartaction";
+import CloseIcon from "@mui/icons-material/Close";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,9 +24,14 @@ const Cart = () => {
   const count = useSelector((state) => state.count);
   const dispatch = useDispatch();
 
+  const subtotal = cart.reduce((total, item) => {
+    return total + item.price * item.quantity;
+  }, 0);
+
+
   const handleCheckout = () => {
-   dispatch(checkout());
-    toast("Order Placed!",  {
+    dispatch(checkout());
+    toast("Order Placed!", {
       position: "top-left",
       autoClose: 5000,
       hideProgressBar: false,
@@ -34,7 +40,7 @@ const Cart = () => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
   };
 
   return (
@@ -54,24 +60,38 @@ const Cart = () => {
         <Stack
           sx={{
             width: {
+              lg: "500px",
+              sm: "400px",
               md: "500px",
-              xs: "220px",
-              display: "flex",
-              flexDirection: "column",
-            },
+              xs: "250px",
+            }
           }}
-        >
-          <Typography
-            textAlign="center"
+        > 
+        <Stack sx={{px:"10%"}}>
+          <Stack
+            direction="row"
             sx={{
-              fontSize: { md: "30px", xs: "20px" },
-              fontWeight: "bold",
-              fontFamily: "Verdana",
-              mt: "30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            My Cart
-          </Typography>
+            <Typography
+              sx={{
+                fontSize: { md: "30px", xs: "20px" },
+                fontFamily: "Verdana",
+                mt: "30px",
+                pb: "30px",
+                width: "100%",
+                borderBottom: "1px solid grey",
+              }}
+            >
+              Cart ({count})
+            </Typography>
+            <IconButton onClick={() => setOpen(false)} color="inherit">
+              <CloseIcon />
+            </IconButton>
+          </Stack>
           {cart.length === 0 ? (
             <Stack className="emptybag">
               <Typography
@@ -88,18 +108,20 @@ const Cart = () => {
           ) : (
             <Stack
               sx={{
-                width: { lg: "45%", xs: "60%", md: "40%" },
+                width: "100%",
                 alignSelf: "center",
                 mt: "40px",
                 gap: "20px",
+                pb: "50px",
               }}
             >
               {cart.map((item) => (
                 <Badge key={item.id} badgeContent={item.quantity} color="error">
                   <Card
                     sx={{
-                      height: { lg: "300px", xs: "200px", sm: "220px" },
-                      width: { lg: "220px", md: "200px" },
+                      height: "auto",
+                      width: "100%",
+                      display: "flex",
                     }}
                     key={item.id}
                   >
@@ -108,53 +130,76 @@ const Cart = () => {
                       image={item.img}
                       alt="cart"
                       sx={{
-                        objectFit: "contain",
-                        height: { lg: "150px", xs: "80px" },
+                        objectFit: "cover",
+                        maxWidth: { md: "200px", xs: "40%" },
+                        height: { md: "200px", xs: "100%" },
                       }}
                     />
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        sx={{
-                          textAlign: "center",
-                          fontSize: { lg: "1.1rem", sm: "1rem", xs: "0.8rem" },
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          display: "-webkit-box",
-                          "-webkit-line-clamp": "1",
-                          "-webkit-box-orient": "vertical",
-                        }}
-                      >
-                        {item.title}
-                      </Typography>
+                    <Stack sx={{ py: "10px", width: "100%" }}>
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          sx={{
+                            fontSize: {
+                              lg: "1.1rem",
+                              sm: "1rem",
+                              xs: "0.8rem",
+                            },
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            "-webkit-line-clamp": "2",
+                            "-webkit-box-orient": "vertical",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
 
-                      <Typography
+                        <Typography
+                          sx={{
+                            fontSize: { lg: "1rem", xs: "0.75rem" },
+                          }}
+                        >
+                          Rs.{item.price}
+                        </Typography>
+                      </CardContent>
+                      <CardActions
                         sx={{
-                          textAlign: "center",
-                          fontSize: { lg: "1rem", xs: "0.75rem" },
+                          display: "flex",
+                          pt: "0",
+                          pl: "16px",
+                          height: "100%",
+                          alignItems: "flex-end",
                         }}
                       >
-                        Rs.{item.price}
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      sx={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <button
-                        className="btnremove"
-                        onClick={() =>
-                          dispatch(removefromCart(item.id, item.quantity))
-                        }
-                      >
-                        Remove
-                      </button>
-                    </CardActions>
+                        <button
+                          className="btnremove"
+                          onClick={() =>
+                            dispatch(removefromCart(item.id, item.quantity))
+                          }
+                        >
+                          Remove
+                        </button>
+                      </CardActions>
+                    </Stack>
                   </Card>
                 </Badge>
+                
               ))}
+            </Stack>
+          )}
+          </Stack>
+          {cart.length!==0&&
+              <Stack sx={{position:"sticky", bottom:"0", right:"0", width:"100%", p:"10px", gap:"10px", background:"white"}}>
+              <div style={{display:"flex", justifyContent:"space-between"}}>
+              <Typography sx={{fontSize:"20px"}}>Subtotal</Typography>
+              <Typography sx={{fontSize:"20px"}}>RS.{subtotal}</Typography>
+              </div>
               <button className="btncheckout" onClick={handleCheckout}>
                 Checkout
               </button>
+              </Stack>
+          }
               <ToastContainer
                 position="top-left"
                 autoClose={5000}
@@ -167,8 +212,6 @@ const Cart = () => {
                 pauseOnHover
                 theme="light"
               />
-            </Stack>
-          )}
         </Stack>
       </Drawer>
     </Box>
