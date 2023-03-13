@@ -7,6 +7,13 @@
   box-sizing: border-box;
 }
 
+input,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .navtext {
   color: black;
   cursor: pointer;
@@ -63,6 +70,7 @@
   font-size: 20px;
   position: relative;
   z-index: 2;
+  border-radius: 4px;
 }
 
 .btnshop > span {
@@ -110,6 +118,7 @@
   width: 100%;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  border-radius: 4px;
 }
 
 .btncart:hover {

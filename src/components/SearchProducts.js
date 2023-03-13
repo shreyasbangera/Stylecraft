@@ -6,8 +6,8 @@ const SearchProducts = ({setSearch, handleSearch}) => {
   return (
     <Stack>
     <form onSubmit={handleSearch}>
-      <input className="search"
-        style={{ padding: "10px"}}
+      <input 
+        style={{ padding: "10px", borderRadius:"4px", border:"1px solid"}}
         type="text"
         placeholder="Search"
         onChange={(e)=>setSearch(e.target.value)}
