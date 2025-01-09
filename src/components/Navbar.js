@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, Box, Toolbar, Typography, Stack, ThemeProvider } from "@mui/material";
 import { Link } from "react-router-dom";
-import Login from "./Login";
+// import Login from "./Login";
 import Cart from "./Cart";
 import { navbrand } from "../utils/theme";
 import { Link as ScrollLink } from "react-scroll";
@@ -43,7 +43,7 @@ const Navbar = () => {
             </Stack>
           </Stack>
           <Cart />
-          <Login />
+          {/* <Login /> */}
         </Toolbar>
       </AppBar>
     </Box>

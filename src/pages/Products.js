@@ -35,17 +35,16 @@ const Products = () => {
     }
   }, [sort]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (search) {
+  useEffect(() => {
+    if (search.length) {
       const result = products.filter((product) =>
-        product.title.toLowerCase().includes(search)
+        product.title.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredProducts(result);
     } else {
       setFilteredProducts(products);
     }
-  };
+  }, [search]);
 
   return (
     <Box>
@@ -78,43 +77,42 @@ const Products = () => {
             justifyContent: "space-between",
           }}
         >
-          <SearchProducts setSearch={setSearch} handleSearch={handleSearch} />
+          <SearchProducts setSearch={setSearch} />
           <Sort setSort={setSort} />
         </Stack>
 
         {/* Displaying the products */}
-        <Stack
-          direction="row"
-          sx={{
-            justifyContent:
-              search.length !== 0
-                ? "flex-start"
-                : { sm: "space-between", xs: "space-evenly" },
-            flexWrap: "wrap",
-            gap: { xs: "10px", lg: "30px", sm: "20px" },
-            marginBottom: "50px",
-            minHeight: "50vh",
-            paddingX: "0",
-          }}
-        >
-          {filteredProducts.length === 0 ? (
-            <Typography
-              sx={{
-                fontSize: "30px",
-                color: "gray",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              No Results
-            </Typography>
-          ) : (
-            filteredProducts.map((product) => (
+        {filteredProducts.length === 0 ? (
+          <Typography
+            sx={{
+              fontSize: "30px",
+              color: "gray",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            No Results
+          </Typography>
+        ) : (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(2, 1fr)",
+                sm: "repeat(3, 1fr)",
+                md: "repeat(4, 1fr)",
+                lg: "repeat(5, 1fr)",
+              },
+              gap: { xs: "10px", sm: "20px", lg: "30px" },
+              justifyContent: "center",
+            }}
+          >
+            {filteredProducts.map((product) => (
               <Card
                 sx={{
                   height: "auto",
-                  width: { lg: "250px", xs: "150px", sm: "200px" },
+                  width: "100%",
                   "&:hover": { boxShadow: 10 },
                   pb: "20px",
                 }}
@@ -172,9 +170,9 @@ const Products = () => {
                   </button>
                 </CardActions>
               </Card>
-            ))
-          )}
-        </Stack>
+            ))}
+          </Box>
+        )}
       </Stack>
     </Box>
   );
